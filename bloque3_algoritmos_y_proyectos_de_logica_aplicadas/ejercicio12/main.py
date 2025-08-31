@@ -24,7 +24,6 @@ def simular_lanzamientos(numero_lanzamientos: int) -> Dict[int, int]:
         dado2 = random.randint(1, 6)
         suma = dado1 + dado2
 
-        # Usar el método get() para contar la frecuencia
         # get(key, default_value) devuelve el valor de la clave, o el valor por defecto si no existe.
         frecuencias[suma] = frecuencias.get(suma, 0) + 1
 
