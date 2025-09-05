@@ -22,6 +22,7 @@ def encontrar_indices(frase: str, letra: str) -> list[int]:
         if c.lower() == letra.lower():
             indices.append(i + 1)
     return indices
+
 def main():
     """
     Función main que solicita la frase y la letra al usuario,

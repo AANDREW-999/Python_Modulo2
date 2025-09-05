@@ -64,7 +64,7 @@ def transponer_con_comprension(matriz: Matriz) -> Matriz:
     return [[matriz[i][j] for i in range(filas)] for j in range(columnas)]
 
 
-def principal():
+def main():
     """
     Función principal que demuestra la transposición de una matriz
     utilizando dos métodos diferentes.
@@ -88,4 +88,4 @@ def principal():
 
 
 if __name__ == "__main__":
-    principal()
+    main()

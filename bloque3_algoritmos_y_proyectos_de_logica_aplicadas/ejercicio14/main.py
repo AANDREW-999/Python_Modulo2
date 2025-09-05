@@ -59,7 +59,7 @@ def validar_entrada(letra_intento: str, letras_adivinadas: Set[str]) -> bool:
         bool: True si la entrada es válida, False en caso contrario.
     """
     if len(letra_intento) != 1 or not letra_intento.isalpha():
-        print("❌ Por favor, ingrese una sola letra válida.")
+        print("❌ Por favor, ingrese una sola letra minuscula válida.")
         return False
 
     if letra_intento in letras_adivinadas:

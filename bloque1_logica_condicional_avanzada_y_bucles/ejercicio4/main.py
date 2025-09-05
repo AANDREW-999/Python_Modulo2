@@ -29,7 +29,7 @@ def determinar_ganador(eleccion_jugador: str, eleccion_computadora: str) -> str:
         return 'computadora'
 
 
-def principal():
+def main():
     """
     Función principal que ejecuta el bucle del juego de Piedra, Papel o Tijeras.
     """
@@ -73,4 +73,4 @@ def principal():
 
 
 if __name__ == "__main__":
-    principal()
+    main()

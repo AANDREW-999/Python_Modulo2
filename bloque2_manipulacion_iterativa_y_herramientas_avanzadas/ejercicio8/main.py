@@ -33,7 +33,7 @@ def procesar_numeros(lista_numeros: List[int]) -> tuple[List[int], List[int], Li
     return (numeros_positivos, cuadrados, clasificacion_signo)
 
 
-def principal():
+def main():
     """
     Función principal que ejecuta el procesamiento de la lista de números
     y muestra los resultados.
@@ -52,4 +52,4 @@ def principal():
     print(f"✅ Clasificación de signo: {clasificacion_signo}")
 
 if __name__ == "__main__":
-    principal()
+    main()

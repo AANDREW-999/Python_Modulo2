@@ -44,7 +44,7 @@ def transformar_productos_a_diccionario(productos: List[Dict]) -> Dict[str, floa
     return {item['nombre']: calcular_iva(item['precio']) for item in productos}
 
 
-def principal():
+def main():
     """
     Función principal que demuestra la transformación de la lista de productos.
     """
@@ -69,4 +69,4 @@ def principal():
 
 
 if __name__ == "__main__":
-    principal()
+    main()

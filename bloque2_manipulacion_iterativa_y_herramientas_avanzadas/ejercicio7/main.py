@@ -22,7 +22,7 @@ def combinar_listas_a_diccionario(nombres: List[str], notas: List[float]) -> Dic
     # dict() convierte esas tuplas en un diccionario.
     return dict(zip(nombres, notas))
 
-def principal():
+def main():
     """
     Función principal que demuestra la combinación de listas y la impresión
     del reporte.
@@ -46,4 +46,4 @@ def principal():
         print(f"El estudiante {nombre} tiene una nota de {nota}.")
 
 if __name__ == "__main__":
-    principal()
+    main()

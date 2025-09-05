@@ -18,48 +18,43 @@ def validar_cedula(cedula: str) -> bool:
     Returns:
         bool: True si la suma de los dígitos es par, False en caso contrario.
     """
-    # 1. Validación de la entrada: asegurarse de que solo contenga dígitos.
-    if not cedula.isdigit():
-        print("⚠️ Error: La cédula debe contener solo números.")
-        return False
+    # 1. Calcular la suma de los dígitos
+    # Se usa un generador para mayor eficiencia
+    suma_digitos = sum(int(digito) for digito in cedula)
 
-    # 2. Calcular la suma de los dígitos
-    suma_digitos = 0
-    for digito in cedula:
-        suma_digitos += int(digito)
-
-    # 3. Comprobar si la suma es par
-    if suma_digitos % 2 == 0:
-        return True
-    else:
-        return False
+    # 2. Comprobar si la suma es par y devolver el resultado directamente
+    return suma_digitos % 2 == 0
 
 
-def principal():
+def main():
     """
     Función principal que solicita y valida la cédula del usuario en un bucle.
     """
     print("🛂 Validador de Cédula 🛂")
-    print("La cédula es válida si la suma de sus dígitos es par.")
+    print("La cédula debe tener 10 dígitos y la suma de estos debe ser par.")
 
     while True:
-        cedula_usuario = input("\nIngrese su número de cédula (solo números): ")
+        cedula_usuario = input("\nIngrese su número de cédula (10 dígitos): ").strip()
 
-        # Validar si la entrada está vacía
-        if not cedula_usuario.strip():
-            print("⚠️ Error: No se puede dejar el campo de la cédula vacío.")
-            continue
+        # --- Validaciones previas antes de la lógica principal ---
 
-        # Llamar a la función de validación
-        es_valida = validar_cedula(cedula_usuario)
+        # 1. Validar si contiene solo números
+        if not cedula_usuario.isdigit():
+            print("❌ Error: La cédula debe contener únicamente números.")
+            continue  # Vuelve al inicio del bucle
 
-        if es_valida:
-            print(f"\n✅ ¡Cédula válida! La suma de sus dígitos ({sum(int(d) for d in cedula_usuario)}) es par.")
-            break
+        # 2. Validar la longitud exacta de 10 dígitos
+        if len(cedula_usuario) != 10:
+            print(f"❌ Error: La cédula debe tener 10 dígitos (usted ingresó {len(cedula_usuario)}).")
+            continue  # Vuelve al inicio del bucle
+
+        # --- Si las validaciones de formato son correctas, se aplica la regla ---
+        if validar_cedula(cedula_usuario):
+            print(f"✅ ¡Cédula válida! La suma de sus dígitos es par.")
+            break  # Termina el programa
         else:
-            # El mensaje de error específico ya lo muestra la función validar_cedula
-            print("❌ La cédula no es válida. Por favor, intente de nuevo.")
+            print("❌ Cédula no válida. La suma de sus dígitos es impar. Intente de nuevo.")
 
 
 if __name__ == "__main__":
-    principal()
+    main()
