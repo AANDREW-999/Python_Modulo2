@@ -5,8 +5,7 @@ Interprete de Comandos Sencillos.
 Verifica que la función procesar_comando maneje correctamente los comandos válidos y no válidos.
 """
 
-import pytest
-from .main import procesar_comandos
+from bloque1_logica_condicional_avanzada_y_bucles.ejercicio2 import procesar_comandos
 
 def test_comando_guardar_valido():
     """Prueba que el comando 'guardar' retorne True"""

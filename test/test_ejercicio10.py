@@ -4,8 +4,7 @@ Pruebas unitarias para el Ejercicio 10: Transposición de una Matriz.
 Verifica que las funciones para transponer una matriz funcionen correctamente
 con diferentes matrices de ejemplo.
 """
-import pytest
-from .main import transponer_con_bucles, transponer_con_comprension
+from bloque2_manipulacion_iterativa_y_herramientas_avanzadas.ejercicio10 import transponer_con_bucles, transponer_con_comprension
 
 
 def test_transponer_matriz_basica():

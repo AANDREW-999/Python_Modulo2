@@ -5,8 +5,7 @@ Verifica la lógica de la función encontrar_indices en diferentes escenarios,
 incluyendo casos con múltiples coincidencias, sin coincidencias y mayúsculas/minúsculas.
 """
 
-import pytest
-from .main import encontrar_indices
+from bloque2_manipulacion_iterativa_y_herramientas_avanzadas.ejercicio6 import encontrar_indices
 
 def test_letra_encontrada_una_vez():
     """Prueba cuando la letra aparece una sola vez."""

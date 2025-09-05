@@ -4,8 +4,7 @@ Pruebas unitarias para el Ejercicio 12: Simulador de Lanzamiento de Dados.
 Verifica que la función de simulación genere un diccionario con las sumas
 correctas y el número total de lanzamientos esperado.
 """
-import pytest
-from .main import simular_lanzamientos
+from bloque3_algoritmos_y_proyectos_de_logica_aplicadas.ejercicio12 import simular_lanzamientos
 
 def test_claves_diccionario_correctas():
     """Prueba que el diccionario retornado contenga las claves esperadas (2 a 12)."""

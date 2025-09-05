@@ -4,8 +4,8 @@ Pruebas unitarias para el Ejercicio 9: Transformación de Datos con Dictionary C
 Verifica que la función transforme correctamente la lista de diccionarios a un
 nuevo diccionario con el IVA incluido.
 """
-import pytest
-from .main import transformar_productos_a_diccionario
+from bloque2_manipulacion_iterativa_y_herramientas_avanzadas.ejercicio9 import transformar_productos_a_diccionario
+
 
 
 def test_transformacion_basica_correcta():

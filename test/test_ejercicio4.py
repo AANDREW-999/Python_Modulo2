@@ -5,8 +5,7 @@ Verifica la lógica de la función determinar_ganador para todas las posibles
 combinaciones de jugadas.
 """
 
-import pytest
-from .main import determinar_ganador
+from bloque1_logica_condicional_avanzada_y_bucles.ejercicio4 import determinar_ganador
 
 def test_jugador_gana_con_piedra():
     """Prueba que el jugador gane con piedra contra tijeras."""

@@ -3,9 +3,7 @@ Pruebas unitarias para el Ejercicio 14: Juego del Ahorcado (Hangman).
 
 Verifica la lógica de las funciones de validación de entrada y selección de palabra.
 """
-import pytest
-import random
-from .main import seleccionar_palabra, validar_entrada, PALABRAS_SECRETAS
+from bloque3_algoritmos_y_proyectos_de_logica_aplicadas.ejercicio14 import seleccionar_palabra, validar_entrada,PALABRAS_SECRETAS
 
 def test_seleccionar_palabra():
     """Prueba que la palabra seleccionada sea de la lista predefinida."""

@@ -4,8 +4,7 @@ Pruebas unitarias para el Ejercicio 5: Clasificador de Números.
 Verifica que la función clasificar_numero retorne correctamente 'Par' o 'Impar'.
 """
 
-import pytest
-from .main import clasificar_numero
+from bloque1_logica_condicional_avanzada_y_bucles.ejercicio5 import clasificar_numero
 
 def test_numero_par():
     """Prueba que la función retorne 'Par' para un número par."""

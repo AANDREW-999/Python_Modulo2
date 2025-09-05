@@ -4,8 +4,7 @@ Pruebas unitarias para el Ejercicio 1: Sistema de Precios de Entradas de Cine.
 Verifica la lógica de la función calcular_precio_entrada con diferentes casos
 de edad y estado de estudiante.
 """
-import pytest
-from .main import calcular_precio_entrada
+from bloque1_logica_condicional_avanzada_y_bucles.ejercicio1 import calcular_precio_entrada
 
 def test_nino_no_estudiante():
     """Prueba el precio para un niño que no es estudiante."""

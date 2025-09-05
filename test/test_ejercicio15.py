@@ -3,8 +3,8 @@ Pruebas unitarias para el Ejercicio 15: Batalla Naval Simplificada.
 
 Verifica la lógica de las funciones de inicialización y conversión de coordenadas.
 """
-import pytest
-from .main import inicializar_tablero, convertir_coordenadas, FILAS, COLUMNAS
+from bloque3_algoritmos_y_proyectos_de_logica_aplicadas.ejercicio15 import inicializar_tablero,convertir_coordenadas, FILAS, COLUMNAS
+
 
 def test_inicializar_tablero():
     """Verifica que el tablero tenga las dimensiones correctas y esté vacío."""

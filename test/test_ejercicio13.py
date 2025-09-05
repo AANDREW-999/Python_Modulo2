@@ -4,8 +4,7 @@ Pruebas unitarias para el Ejercicio 13: Aventura de Texto Simple.
 Verifica la lógica de las funciones de habitaciones y decisiones, separándolas
 de la interacción con el usuario.
 """
-import pytest
-from .main import get_habitacion_info, manejar_decision
+from bloque3_algoritmos_y_proyectos_de_logica_aplicadas.ejercicio13 import get_habitacion_info, manejar_decision
 
 # --- Pruebas para la función get_habitacion_info ---
 

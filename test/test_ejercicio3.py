@@ -4,8 +4,7 @@ Pruebas unitarias para el Ejercicio 3: Validador de Contraseñas.
 Verifica la lógica de la función validar_contrasena con diferentes casos.
 """
 
-import pytest
-from .main import validar_contrasena
+from bloque1_logica_condicional_avanzada_y_bucles.ejercicio3 import validar_contrasena
 
 def test_contrasena_valida():
     """Prueba una contraseña que cumple todos los criterios."""

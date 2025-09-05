@@ -5,8 +5,7 @@ Verifica que la función procesar_numeros genere las tres listas de salida
 correctamente para diferentes conjuntos de datos.
 """
 
-import pytest
-from .main import procesar_numeros
+from bloque2_manipulacion_iterativa_y_herramientas_avanzadas.ejercicio8 import procesar_numeros
 
 
 def test_procesamiento_basico():

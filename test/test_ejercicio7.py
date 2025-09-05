@@ -3,8 +3,7 @@ Pruebas unitarias para el Ejercicio 7: Combinador de Listas con zip.
 
 Verifica que la función combine correctamente las listas en un diccionario.
 """
-import pytest
-from .main import combinar_listas_a_diccionario
+from bloque2_manipulacion_iterativa_y_herramientas_avanzadas.ejercicio7 import combinar_listas_a_diccionario
 
 def test_combinacion_basica_correcta():
     """Prueba una combinación estándar de listas."""
