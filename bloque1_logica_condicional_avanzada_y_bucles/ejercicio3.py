@@ -1,73 +1,66 @@
 """
 Ejercicio 3: Validador de Contraseñas
 
-Este programa solicita al usuario que cree una contraseña y la valida
-basándose en un conjunto de reglas. El bucle continuará hasta que la
-contraseña cumpla con todos los criterios de seguridad.
+Este programa solicita una contraseña y la valida usando un conjunto de reglas.
+Toda la lógica de validación está encapsulada en la función `validar_contrasena`
+para facilitar las pruebas y la reutilización.
 """
 
 
-def validar_contrasena(contrasena: str) -> dict:
+def validar_contrasena(contrasena: str) -> bool:
     """
-    Valida una contraseña según criterios de seguridad específicos.
+    Valida una contraseña según criterios de seguridad. Si es válida, retorna True.
+    Si no cumple alguna regla, lanza un error ValueError con el motivo.
 
     Args:
         contrasena (str): La contraseña a validar.
-
     Returns:
-        dict: Un diccionario con los resultados de la validación.
-              'valida': bool (True si es válida, False en caso contrario).
-              'mensajes': list (Lista de strings con los errores encontrados).
+        bool: True si la contraseña es válida.
+    Raises:
+        ValueError: Si la contraseña no cumple con alguna de las reglas.
     """
-    mensajes_error = []
-    es_valida = True
+    # 1. Validación de entrada vacía o solo con espacios
+    if not contrasena.strip():
+        raise ValueError("la contraseña no puede estar vacía ni contener solo espacios")
 
-    # Criterio 1: Longitud mínima de 8 caracteres
+    # 2. Criterio: Longitud mínima de 8 caracteres
     if len(contrasena) < 8:
-        mensajes_error.append("❌ La contraseña debe tener al menos 8 caracteres.")
-        es_valida = False
+        raise ValueError("la contraseña debe tener al menos 8 caracteres")
 
-    # Criterio 2: Al menos una letra mayúscula
+    # 3. Criterio: Al menos una letra mayúscula
     if not any(c.isupper() for c in contrasena):
-        mensajes_error.append("❌ La contraseña debe contener al menos una letra mayúscula.")
-        es_valida = False
+        raise ValueError("la contraseña debe contener al menos una letra mayúscula")
 
-    # Criterio 3: Al menos un número
+    # 4. Criterio: Al menos un número
     if not any(c.isdigit() for c in contrasena):
-        mensajes_error.append("❌ La contraseña debe contener al menos un número.")
-        es_valida = False
+        raise ValueError("la contraseña debe contener al menos un número")
 
-    return {"valida": es_valida, "mensajes": mensajes_error}
+    # Si todas las validaciones pasan, la contraseña es correcta
+    return True
 
 
-def main():
+def principal():
     """
-    Función main que pide la contraseña y la valida en un bucle.
+    Función principal que pide la contraseña y la valida en un bucle.
     """
     print("🔐 Creador de Contraseñas Seguras")
-    print("Criterios de validación:")
-    print(" 1. Mínimo 8 caracteres")
-    print(" 2. Al menos una letra mayúscula")
-    print(" 3. Al menos un número")
+    print("   1. Mínimo 8 caracteres")
+    print("   2. Al menos una letra mayúscula")
+    print("   3. Al menos un número")
 
     while True:
-        contrasena = input("\nIngrese una nueva contraseña: ")
+        try:
+            contrasena_usuario = input("\nIngrese una nueva contraseña: ")
 
-        # Validación de entrada vacía
-        if contrasena == "":
-            print("⚠️ Advertencia: No puede ingresar una contraseña vacía.")
-            continue
+            # Se llama a la función que contiene toda la lógica
+            if validar_contrasena(contrasena_usuario):
+                print("\n✅ ¡Contraseña válida y segura! Ha cumplido con todos los requisitos.")
+                break  # Si es válida, salimos del bucle
 
-        resultado_validacion = validar_contrasena(contrasena)
-
-        if resultado_validacion["valida"]:
-            print("\n✅ ¡Contraseña válida! Ha cumplido con todos los requisitos.")
-            break
-        else:
-            print("\n⛔ La contraseña no es válida. Revise los siguientes errores:")
-            for mensaje in resultado_validacion["mensajes"]:
-                print(mensaje)
+        except ValueError as e:
+            # Si validar_contrasena lanza un error, lo capturamos y mostramos aquí
+            print(f"⛔ Error: {e}")
 
 
 if __name__ == "__main__":
-    main()
+    principal()
