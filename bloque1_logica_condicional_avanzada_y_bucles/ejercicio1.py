@@ -1,79 +1,82 @@
 """
 Ejercicio 1: Sistema de Precios de Entradas de Cine
 
-Este programa calcula el precio de una entrada de cine basándose en la edad del usuario
-y si es estudiante, aplicando las reglas de descuento correspondientes.
+Este programa calcula el precio de una entrada de cine. La función principal
+incluye toda la lógica de validación, incluyendo la verificación de campos
+vacíos, para asegurar que los datos de entrada sean correctos.
 """
 
-
-def calcular_precio_entrada(edad: int, es_estudiante: str) -> float:
+def calcular_precio_entrada(edad_input: str, es_estudiante: str) -> float:
     """
-    Calcula el precio de la entrada de cine según la edad y el estado de estudiante.
+    Valida las entradas y calcula el precio de la entrada de cine.
 
     Args:
-        edad (int): La edad del usuario.
-        es_estudiante (str): Indica si el usuario es estudiante ('si' o 'no').
+        edad_input (str): La edad del usuario como cadena de texto.
+        es_estudiante (str): La respuesta del usuario a si es estudiante.
 
     Returns:
         float: El precio final de la entrada.
-    """
-    precio_base = 0.0
 
+    Raises:
+        ValueError: Si alguna entrada está vacía, la edad no es un número,
+                    está fuera de rango, o si la respuesta de estudiante es inválida.
+    """
+    # 1. Validación de Entradas Vacías
+    if not edad_input.strip():
+        raise ValueError("el campo de la edad no puede estar vacío")
+
+    if not es_estudiante.strip():
+        raise ValueError("el campo de estudiante no puede estar vacío")
+
+    # 2. Conversión y Validación de la Edad
+    try:
+        edad = int(edad_input)
+    except ValueError:
+        raise ValueError("la edad debe ser un número entero (ej: 30)")
+
+    if not 0 <= edad <= 110:
+        raise ValueError("la edad debe estar entre 0 y 110 años")
+
+    # 3. Validación del Estado de Estudiante
+    respuesta_normalizada = es_estudiante.lower().strip()
+    if respuesta_normalizada not in ['si', 'no']:
+        raise ValueError("la respuesta de estudiante debe ser 'si' o 'no'")
+
+    # 4. Cálculo del Precio
+    precio_base = 0.0
     if edad < 12:
         precio_base = 10000.0
-    elif 12 <= edad < 18:
+    elif edad < 18:
         precio_base = 15000.0
-    elif edad >= 18:
+    else:  # edad >= 18
         precio_base = 20000.0
 
-    # Aplica el descuento del 10% si el usuario es estudiante
-    if es_estudiante.lower() == 'si':
-        precio_final = precio_base * 0.9
-    else:
-        precio_final = precio_base
+    # Aplica el descuento del 10% si es estudiante
+    if respuesta_normalizada == 'si':
+        return precio_base * 0.9
 
-    return precio_final
+    return precio_base
 
 
 def main():
     """
-    Función principal que solicita datos al usuario, los valida y muestra
-    el precio de la entrada.
+    Función principal que solicita datos y gestiona los errores de validación.
     """
     print("🎬 Sistema de Precios de Entradas de Cine 🎬")
 
-    # Validación de la edad
     while True:
         try:
-            edad_input = input("Por favor, ingrese su edad: ")
-            edad = int(edad_input)
+            edad_input = input("\nPor favor, ingrese su edad: ")
+            es_estudiante_input = input("¿Es usted estudiante? (si/no): ")
 
-            if edad < 0:
-                print("⚠️ Error: La edad no puede ser un número negativo. Intente de nuevo.")
-            elif edad > 110:
-                print("⚠️ Error: La edad máxima permitida es de 110 años. Intente de nuevo.")
-            else:
-                # La edad es un número válido y dentro del rango. Salir del bucle.
-                break
+            precio = calcular_precio_entrada(edad_input, es_estudiante_input)
 
-        except ValueError:
-            # Esto se ejecuta si la entrada no se puede convertir a un entero.
-            print("⚠️ Error: Entrada no válida. Por favor, ingrese un número entero para la edad.")
-
-    # Validación del estado de estudiante
-    while True:
-        es_estudiante_input = input("¿Es usted estudiante? (si/no): ").lower()
-        if es_estudiante_input in ['si', 'no']:
+            estado = "estudiante" if es_estudiante_input.lower().strip() == 'si' else "no estudiante"
+            print(f"\n✅ El precio para una persona de {edad_input} años ({estado}) es de: ${precio:,.2f}")
             break
-        else:
-            print("⚠️ Error: Respuesta no válida. Por favor, escriba 'si' o 'no'.")
 
-    # Llama a la función para calcular el precio y muestra el resultado
-    precio = calcular_precio_entrada(edad, es_estudiante_input)
-
-    estado_estudiante = "estudiante" if es_estudiante_input == 'si' else "no estudiante"
-
-    print(f"\n✅ El precio de la entrada para una persona de {edad} años ({estado_estudiante}) es de: ${precio:,.2f}")
+        except ValueError as e:
+            print(f"⚠️ Error: {e}. Intente de nuevo.")
 
 
 if __name__ == "__main__":
