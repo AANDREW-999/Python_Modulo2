@@ -70,3 +70,16 @@ def test_respuesta_estudiante_invalida_lanza_excepcion():
     """Verifica que una respuesta de estudiante no válida lance ValueError."""
     with pytest.raises(ValueError, match="debe ser 'si' o 'no'"):
         calcular_precio_entrada("25", "tal vez")
+
+def test_respuesta_estudiante_mayusculas():
+    """Verifica que la respuesta de estudiante en mayúsculas sea válida."""
+    assert calcular_precio_entrada("20", "SI") == 18000.0
+    assert calcular_precio_entrada("20", "NO") == 20000.0
+
+def test_edad_con_espacios():
+    """Verifica que la edad con espacios sea manejada correctamente."""
+    assert calcular_precio_entrada(" 15 ", "no") == 15000.0
+    assert calcular_precio_entrada("  9", "si") == 9000
+    assert calcular_precio_entrada("30  ", "no") == 20000.0
+    with pytest.raises(ValueError, match="edad no puede estar vacío"):
+        calcular_precio_entrada("   ", "si")
