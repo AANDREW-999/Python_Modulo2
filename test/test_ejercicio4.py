@@ -1,44 +1,52 @@
 """
-Pruebas unitarias para el Ejercicio 4: Juego de Piedra, Papel o Tijeras.
-
-Verifica la lógica de la función determinar_ganador para todas las posibles
-combinaciones de jugadas.
+Pruebas unitarias para el Ejercicio 4: Piedra, Papel o Tijeras.
+Se prueban las funciones de validación de entrada y de determinación
+del ganador de forma independiente.
 """
+import pytest
+from bloque1_logica_condicional_avanzada_y_bucles.ejercicio4 import validar_eleccion, determinar_ganador
 
-from bloque1_logica_condicional_avanzada_y_bucles.ejercicio4 import determinar_ganador
+# --- Pruebas para la función de validación ---
 
-def test_jugador_gana_con_piedra():
-    """Prueba que el jugador gane con piedra contra tijeras."""
-    assert determinar_ganador('piedra', 'tijeras') == 'jugador'
+def test_elecciones_validas():
+    """Prueba que las elecciones correctas se validen y normalicen."""
+    assert validar_eleccion("piedra") == "piedra"
+    assert validar_eleccion(" PAPEL ") == "papel" # Con espacios
+    assert validar_eleccion("Tijeras") == "tijeras" # Con mayúsculas
 
-def test_jugador_gana_con_papel():
-    """Prueba que el jugador gane con papel contra piedra."""
-    assert determinar_ganador('papel', 'piedra') == 'jugador'
+def test_eleccion_invalida_lanza_excepcion():
+    """Prueba que una elección no reconocida lance un ValueError."""
+    with pytest.raises(ValueError, match="opción no válida"):
+        validar_eleccion("Banano")
 
-def test_jugador_gana_con_tijeras():
-    """Prueba que el jugador gane con tijeras contra papel."""
-    assert determinar_ganador('tijeras', 'papel') == 'jugador'
+def test_eleccion_vacia_lanza_excepcion():
+    """Prueba que una cadena vacía o con solo espacios lance un ValueError."""
+    with pytest.raises(ValueError, match="opción no válida"):
+        validar_eleccion("")
+    with pytest.raises(ValueError, match="opción no válida"):
+        validar_eleccion("   ")
 
-def test_computadora_gana_con_piedra():
-    """Prueba que la computadora gane con piedra contra tijeras."""
-    assert determinar_ganador('tijeras', 'piedra') == 'computadora'
+# --- Pruebas para la lógica del juego ---
 
-def test_computadora_gana_con_papel():
-    """Prueba que la computadora gane con papel contra piedra."""
-    assert determinar_ganador('piedra', 'papel') == 'computadora'
+@pytest.mark.parametrize("jugador, computadora", [
+    ("piedra", "tijeras"),
+    ("papel", "piedra"),
+    ("tijeras", "papel")
+])
+def test_jugador_gana(jugador, computadora):
+    """Prueba todos los escenarios donde el jugador debe ganar."""
+    assert determinar_ganador(jugador, computadora) == "jugador"
 
-def test_computadora_gana_con_tijeras():
-    """Prueba que la computadora gane con tijeras contra papel."""
-    assert determinar_ganador('papel', 'tijeras') == 'computadora'
+@pytest.mark.parametrize("jugador, computadora", [
+    ("tijeras", "piedra"),
+    ("piedra", "papel"),
+    ("papel", "tijeras")
+])
+def test_computadora_gana(jugador, computadora):
+    """Prueba todos los escenarios donde la computadora debe ganar."""
+    assert determinar_ganador(jugador, computadora) == "computadora"
 
-def test_empate_piedra():
-    """Prueba el caso de empate con piedra."""
-    assert determinar_ganador('piedra', 'piedra') == 'empate'
-
-def test_empate_papel():
-    """Prueba el caso de empate con papel."""
-    assert determinar_ganador('papel', 'papel') == 'empate'
-
-def test_empate_tijeras():
-    """Prueba el caso de empate con tijeras."""
-    assert determinar_ganador('tijeras', 'tijeras') == 'empate'
+@pytest.mark.parametrize("eleccion", ["piedra", "papel", "tijeras"])
+def test_empate(eleccion):
+    """Prueba que elecciones idénticas resulten en empate."""
+    assert determinar_ganador(eleccion, eleccion) == "empate"
