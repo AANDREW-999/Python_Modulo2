@@ -1,44 +1,51 @@
 """
 Pruebas unitarias para el Ejercicio 6: Analizador de Posiciones de Letras.
-
-Verifica la lógica de la función encontrar_indices en diferentes escenarios,
-incluyendo casos con múltiples coincidencias, sin coincidencias y mayúsculas/minúsculas.
 """
+import pytest
+from bloque2_manipulacion_iterativa_y_herramientas_avanzadas.ejercicio6 import analizar_frase_y_letra
 
-from bloque2_manipulacion_iterativa_y_herramientas_avanzadas.ejercicio6 import encontrar_indices
+# --- Pruebas para casos válidos ---
 
-def test_letra_encontrada_una_vez():
-    """Prueba cuando la letra aparece una sola vez."""
-    frase = "Python"
-    letra = "o"
-    assert encontrar_indices(frase, letra) == [5]
+def test_encontrar_letra_multiples_veces():
+    """Prueba un caso estándar donde la letra aparece varias veces."""
+    assert analizar_frase_y_letra("Hola Sena sena", "a") == [4, 8, 12]
 
-def test_letra_encontrada_multiples_veces():
-    """Prueba cuando la letra aparece varias veces."""
-    frase = "banana"
-    letra = "a"
-    assert encontrar_indices(frase, letra) == [2, 4, 6]
+def test_busqueda_no_sensible_a_mayusculas():
+    """Prueba que la búsqueda funcione con distintas combinaciones de mayúsculas."""
+    assert analizar_frase_y_letra("HOLA SENA", "a") == [4, 8]
+    assert analizar_frase_y_letra("hola sena", "A") == [4, 8]
 
 def test_letra_no_encontrada():
-    """Prueba cuando la letra no está en la frase."""
-    frase = "programacion"
-    letra = "z"
-    assert encontrar_indices(frase, letra) == []
+    """Prueba que devuelva una lista vacía si la letra no está."""
+    assert analizar_frase_y_letra("Probando el codigo", "z") == []
 
-def test_mayusculas_y_minusculas():
-    """Prueba que la función no distinga entre mayúsculas y minúsculas."""
-    frase = "Hola SENA"
-    letra = "a"
-    assert encontrar_indices(frase, letra) == [4, 8]
+def test_frase_con_espacios_extra():
+    """Prueba que los espacios extra al inicio/final se manejen bien."""
+    assert analizar_frase_y_letra("  espacios extra  ", "e") == [1, 2, 8, 9]
 
-def test_frase_vacia():
-    """Prueba con una frase vacía."""
-    frase = ""
-    letra = "a"
-    assert encontrar_indices(frase, letra) == []
+# --- Pruebas para entradas inválidas (deben lanzar excepciones) ---
 
-def test_caracter_especial():
-    """Prueba la búsqueda de un carácter especial."""
-    frase = "esto-es-una-prueba"
-    letra = "-"
-    assert encontrar_indices(frase, letra) == [5, 8, 12]
+def test_frase_vacia_lanza_excepcion():
+    """Prueba que una frase vacía o con solo espacios lance ValueError."""
+    with pytest.raises(ValueError, match="la frase no puede estar vacía"):
+        analizar_frase_y_letra("   ", "a")
+
+def test_frase_con_numeros_lanza_excepcion():
+    """Prueba que una frase con números lance ValueError."""
+    with pytest.raises(ValueError, match="la frase no puede contener números"):
+        analizar_frase_y_letra("Sena 123", "s")
+
+def test_letra_vacia_lanza_excepcion():
+    """Prueba que una letra vacía lance ValueError."""
+    with pytest.raises(ValueError, match="la letra a buscar no puede estar vacía"):
+        analizar_frase_y_letra("frase valida", " ")
+
+def test_letra_con_multiples_caracteres_lanza_excepcion():
+    """Prueba que una 'letra' con más de un carácter lance ValueError."""
+    with pytest.raises(ValueError, match="debe ingresar una sola letra"):
+        analizar_frase_y_letra("frase valida", "la")
+
+def test_letra_no_alfabetica_lanza_excepcion():
+    """Prueba que una 'letra' que no es del alfabeto (ej. un número) lance ValueError."""
+    with pytest.raises(ValueError, match="debe ser un carácter del alfabeto"):
+        analizar_frase_y_letra("frase valida", "5")
