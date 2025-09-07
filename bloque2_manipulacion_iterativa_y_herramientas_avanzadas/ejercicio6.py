@@ -69,7 +69,7 @@ def principal():
             else:
                 print(f"\n❌ Lo siento, la letra '{letra_usuario.strip()}' no se encontró en la frase.")
 
-            break  # Salimos del bucle si todo fue exitoso
+            break  # Salimos del bucle si fue exitoso
 
         except ValueError as e:
             print(f"⚠️ Error: {e}. Inténtelo de nuevo.")

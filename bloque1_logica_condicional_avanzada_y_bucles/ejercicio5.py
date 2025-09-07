@@ -56,7 +56,7 @@ def principal():
                 else:
                     print("💡 ¡Dato extra! Este número también es múltiplo de 5.")
 
-            break # Salimos del bucle si todo fue correcto
+            break # Salimos del bucle si fue exitoso
 
         except ValueError as e:
             print(f"❌ Error: {e}. Intente de nuevo.")
