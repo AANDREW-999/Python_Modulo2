@@ -44,7 +44,7 @@ def principal():
         try:
             entrada_usuario = input("\nPor favor, ingrese un número entero: ")
 
-            # La función `analizar_numero` hace todo el trabajo pesado
+            # La función `analizar_numero` hace la validación y el análisis
             numero, clasificacion, es_multiplo = analizar_numero(entrada_usuario)
 
             # Si el análisis es exitoso, imprimimos los resultados
