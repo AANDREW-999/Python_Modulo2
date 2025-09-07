@@ -1,61 +1,65 @@
 """
-Ejercicio 5: Clasificador de Números (Par/Impar con Ternario)
+Ejercicio 5: Clasificador de Números
 
-Este programa solicita un número al usuario y, utilizando el operador ternario,
-determina si es par o impar. Adicionalmente, verifica si el número es múltiplo de 5.
+El programa solicita un número y lo analiza. Toda la lógica de validación
+y clasificación está encapsulada en la función `analizar_numero` para
+facilitar pruebas exhaustivas.
 """
 
-
-def clasificar_numero(numero: int) -> str:
+def analizar_numero(entrada_raw: str) -> tuple:
     """
-    Clasifica un número como 'Par' o 'Impar' usando el operador ternario.
+    Valida y analiza una entrada para clasificarla como número.
 
     Args:
-        numero (int): El número entero a clasificar.
-
+        entrada_raw (str): La entrada del usuario en formato de texto.
     Returns:
-        str: La cadena 'Par' si el número es par, 'Impar' si es impar.
+        tuple: (número_validado, clasificación, es_multiplo_de_5)
+    Raises:
+        ValueError: Si la entrada está vacía o no es un entero válido.
     """
-    # Operador ternario: (valor_si_verdadero) if (condicion) else (valor_si_falso)
-    estado = "Par" if numero % 2 == 0 else "Impar"
-    if numero == 0:
-        estado = "Neutro"
-    return estado
+    # 1. Validación de la entrada
+    if not entrada_raw.strip():
+        raise ValueError("la entrada no puede estar vacía")
 
+    try:
+        numero = int(entrada_raw)
+    except ValueError:
+        raise ValueError("la entrada debe ser un número entero válido")
 
-def main():
+    # 2. Análisis del número
+    # Usamos un ternario anidado para la clasificación
+    clasificacion = "Neutro" if numero == 0 else ("Par" if numero % 2 == 0 else "Impar")
+
+    es_multiplo_de_5 = (numero % 5 == 0)
+
+    return numero, clasificacion, es_multiplo_de_5
+
+def principal():
     """
-    Función main que solicita el número, realiza las validaciones y
-    muestra los resultados al usuario.
+    Función principal que solicita el número y muestra el análisis.
     """
-    print("🔢 Clasificador de Números (Par/Impar) 🔢")
+    print("🔢 Clasificador de Números 🔢")
 
-    # Bucle para validar que la entrada sea un número entero
     while True:
         try:
-            entrada_usuario = input("Por favor, ingrese un número entero: ")
-            if entrada_usuario == '':
-                print("⚠️ Advertencia: La entrada no puede estar vacía. Intente de nuevo.")
-                continue
-            numero = int(entrada_usuario)
-            break
-        except ValueError:
-            print("❌ Error: La entrada no es un número entero válido. Intente de nuevo.")
+            entrada_usuario = input("\nPor favor, ingrese un número entero: ")
 
-    # Usa la función para clasificar el número y muestra el resultado
-    resultado_clasificacion = clasificar_numero(numero)
-    print(f"\nEl número {numero} es: {resultado_clasificacion}")
+            # La función `analizar_numero` hace todo el trabajo pesado
+            numero, clasificacion, es_multiplo = analizar_numero(entrada_usuario)
 
-    # Mensaje especial para el número cero
-    if numero == 0:
-        print("⚠️ Nota: El número cero es considerado 'Neutro' y es múltiplo de todos los números.")
+            # Si el análisis es exitoso, imprimimos los resultados
+            print(f"\nEl número {numero} es: {clasificacion}")
 
-    # Mensaje adicional si el número es múltiplo de 5
-    if numero % 5 == 0:
-        print("💡 ¡Dato extra! Este número también es un múltiplo de 5.")
+            if es_multiplo:
+                if numero == 0:
+                    print("💡 ¡Dato extra! El cero es múltiplo de todos los números, incluido el 5.")
+                else:
+                    print("💡 ¡Dato extra! Este número también es múltiplo de 5.")
 
+            break # Salimos del bucle si todo fue correcto
+
+        except ValueError as e:
+            print(f"❌ Error: {e}. Intente de nuevo.")
 
 if __name__ == "__main__":
-    main()
-
-
+    principal()
