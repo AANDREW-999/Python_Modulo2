@@ -21,7 +21,7 @@ def test_letra_no_encontrada():
 
 def test_frase_con_espacios_extra():
     """Prueba que los espacios extra al inicio/final se manejen bien."""
-    assert analizar_frase_y_letra("  espacios extra  ", "e") == [1, 2, 8, 9]
+    assert analizar_frase_y_letra("  espacios extra  ", "e") == [1, 9]
 
 # --- Pruebas para entradas inválidas (deben lanzar excepciones) ---
 

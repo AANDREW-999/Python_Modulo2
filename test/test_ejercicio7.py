@@ -1,31 +1,36 @@
 """
 Pruebas unitarias para el Ejercicio 7: Combinador de Listas con zip.
 
-Verifica que la función combine correctamente las listas en un diccionario.
+Verifica la lógica de la función combinar_listas_a_diccionario, incluyendo
+la validación de la longitud de las listas.
 """
+import pytest
 from bloque2_manipulacion_iterativa_y_herramientas_avanzadas.ejercicio7 import combinar_listas_a_diccionario
 
-def test_combinacion_basica_correcta():
-    """Prueba una combinación estándar de listas."""
-    nombres = ["Ana", "Luis"]
-    notas = [4.5, 3.8]
-    diccionario_esperado = {"Ana": 4.5, "Luis": 3.8}
+def test_combinar_listas_longitud_igual():
+    """
+    Prueba que la función combine correctamente dos listas de igual longitud.
+    """
+    nombres = ["Ana", "Luis", "Sofía"]
+    notas = [4.5, 3.8, 5.0]
+    diccionario_esperado = {"Ana": 4.5, "Luis": 3.8, "Sofía": 5.0}
     assert combinar_listas_a_diccionario(nombres, notas) == diccionario_esperado
 
-def test_listas_vacias():
-    """Prueba la combinación de listas vacías."""
+def test_combinar_listas_vacias():
+    """
+    Prueba que la función combine correctamente dos listas vacías.
+    """
     nombres = []
     notas = []
     diccionario_esperado = {}
     assert combinar_listas_a_diccionario(nombres, notas) == diccionario_esperado
 
-def test_listas_con_un_elemento():
-    """Prueba la combinación de listas con un solo elemento."""
-    nombres = ["Sofía"]
-    notas = [5.0]
-    diccionario_esperado = {"Sofía": 5.0}
-    assert combinar_listas_a_diccionario(nombres, notas) == diccionario_esperado
-
-# Nota: pytest no lanza una excepción si las listas tienen longitudes diferentes
-# con la función zip, simplemente se detiene. Por lo tanto, no es necesario
-# un test para ese caso, ya que la validación se maneja en la función principal.
+def test_combinar_listas_longitud_diferente_lanza_excepcion():
+    """
+    Prueba que la función lance un ValueError si las listas tienen
+    longitudes diferentes.
+    """
+    nombres = ["Ana", "Luis", "Sofía"]
+    notas = [4.5, 3.8] # Falta un elemento
+    with pytest.raises(ValueError, match="misma cantidad de elementos"):
+        combinar_listas_a_diccionario(nombres, notas)
