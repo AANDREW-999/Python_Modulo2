@@ -1,9 +1,13 @@
 [project]
 name = "python-modulo2"
 version = "0.1.0"
-description = "Add your description here"
+description = "Desarrollo del modulo 2 de python"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "pytest>=8.4.1",
 ]
+authors = [
+    { name = "Andres Gonzalez", email = "andresfelipegonzalez5a@gmail.com" }
+]
+repository = "https://github.com/AANDREW-999/Python_Modulo2.git"
