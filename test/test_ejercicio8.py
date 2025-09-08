@@ -1,66 +1,63 @@
 """
-Pruebas unitarias para el Ejercicio 8: Filtrado de Datos con List Comprehensions.
-
-Verifica que la función procesar_numeros genere las tres listas de salida
-correctamente para diferentes conjuntos de datos.
+Pruebas unitarias para el Ejercicio 8: Filtrado de Datos.
 """
-
-from bloque2_manipulacion_iterativa_y_herramientas_avanzadas.ejercicio8 import procesar_numeros
-
-
-def test_procesamiento_basico():
-    """Prueba el caso de uso principal con números positivos y negativos."""
-    numeros = [-5, 10, -15, 20, -25, 30]
-
-    numeros_positivos_esperado = [10, 20, 30]
-    cuadrados_esperado = [25, 100, 225, 400, 625, 900]
-    clasificacion_esperado = ["negativo", "positivo", "negativo", "positivo", "negativo", "positivo"]
-
-    positivos_obtenido, cuadrados_obtenido, clasificacion_obtenido = procesar_numeros(numeros)
-
-    assert positivos_obtenido == numeros_positivos_esperado
-    assert cuadrados_obtenido == cuadrados_esperado
-    assert clasificacion_obtenido == clasificacion_esperado
+import pytest
+from bloque2_manipulacion_iterativa_y_herramientas_avanzadas.ejercicio8 import analizar_lista_desde_texto
 
 
-def test_lista_vacia():
-    """Prueba con una lista de números vacía."""
-    numeros = []
-    positivos, cuadrados, clasificacion = procesar_numeros(numeros)
+# ... (las pruebas anteriores como test_lista_mixta_valida, etc. siguen aquí)
 
-    assert positivos == []
-    assert cuadrados == []
-    assert clasificacion == []
+def test_lista_mixta_valida():
+    """Prueba una entrada estándar con números positivos, negativos y cero."""
+    entrada = "-5, 10, 0, 20, -25"
+    original, positivos, cuadrados, clasificacion = analizar_lista_desde_texto(entrada)
 
-
-def test_solo_numeros_negativos():
-    """Prueba con una lista que solo contiene números negativos."""
-    numeros = [-1, -2, -3]
-
-    positivos_obtenido, cuadrados_obtenido, clasificacion_obtenido = procesar_numeros(numeros)
-
-    assert positivos_obtenido == []
-    assert cuadrados_obtenido == [1, 4, 9]
-    assert clasificacion_obtenido == ["negativo", "negativo", "negativo"]
+    assert original == [-5, 10, 0, 20, -25]
+    assert positivos == [10, 20]
+    assert cuadrados == [25, 100, 0, 400, 625]
+    assert clasificacion == ["negativo", "positivo", "positivo", "positivo", "negativo"]
 
 
-def test_solo_numeros_positivos():
-    """Prueba con una lista que solo contiene números positivos."""
-    numeros = [1, 2, 3]
+# --- Pruebas para entradas inválidas (deben lanzar excepciones) ---
 
-    positivos_obtenido, cuadrados_obtenido, clasificacion_obtenido = procesar_numeros(numeros)
-
-    assert positivos_obtenido == [1, 2, 3]
-    assert cuadrados_obtenido == [1, 4, 9]
-    assert clasificacion_obtenido == ["positivo", "positivo", "positivo"]
+def test_entrada_vacia_lanza_excepcion():
+    """Prueba que una cadena vacía o con solo espacios lance ValueError."""
+    with pytest.raises(ValueError, match="la entrada no puede estar vacía"):
+        analizar_lista_desde_texto("   ")
 
 
-def test_con_cero():
-    """Prueba un caso que incluye el número cero."""
-    numeros = [0, 5, -5]
+def test_elemento_no_numerico_lanza_excepcion():
+    """Prueba que un elemento no numérico en la lista lance ValueError."""
+    with pytest.raises(ValueError, match="el elemento 'tres' no es un número entero válido"):
+        analizar_lista_desde_texto("1, 2, tres, 4")
 
-    positivos_obtenido, cuadrados_obtenido, clasificacion_obtenido = procesar_numeros(numeros)
 
-    assert positivos_obtenido == [5]
-    assert cuadrados_obtenido == [0, 25, 25]
-    assert clasificacion_obtenido == ["positivo", "positivo", "negativo"]
+def test_lista_demasiado_larga_lanza_excepcion():
+    """
+    Prueba que una lista con más de 100 elementos lance ValueError.
+    """
+    # Creamos una cadena con 101 números (0,1,2,...,100)
+    entrada_larga = ",".join(map(str, range(101)))
+
+    with pytest.raises(ValueError, match="la lista excede el límite de 100 números"):
+        analizar_lista_desde_texto(entrada_larga)
+
+
+def test_lista_en_el_limite_es_valida():
+    """Verifica que una lista con exactamente 100 elementos sea procesada correctamente."""
+    # Creamos una cadena con 100 números (0,1,2,...,99)
+    entrada_en_limite = ",".join(map(str, range(100)))
+
+    # Esta llamada no debería lanzar una excepción
+    original, _, _, _ = analizar_lista_desde_texto(entrada_en_limite)
+    assert len(original) == 100
+
+def test_elemento_con_espacios_extra_es_valido():
+    """Prueba que los elementos con espacios extra se manejen correctamente."""
+    entrada = "  -3 ,  4 ,  0 ,  15 , -8  "
+    original, positivos, cuadrados, clasificacion = analizar_lista_desde_texto(entrada)
+
+    assert original == [-3, 4, 0, 15, -8]
+    assert positivos == [4, 15]
+    assert cuadrados == [9, 16, 0, 225, 64]
+    assert clasificacion == ["negativo", "positivo", "positivo", "positivo", "negativo"]

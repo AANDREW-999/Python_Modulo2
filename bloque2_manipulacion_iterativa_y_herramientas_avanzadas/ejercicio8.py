@@ -1,55 +1,75 @@
 """
 Ejercicio 8: Filtrado de Datos con List Comprehensions
 
-Este programa utiliza comprensiones de lista para generar nuevas listas
-a partir de una lista de números dada, filtrando, transformando y
-clasificando sus elementos de forma concisa y "Pythónica".
+Este programa interactivo pide al usuario una lista de números, la valida
+y utiliza comprensiones de lista para generar y mostrar nuevos datos derivados.
 """
 from typing import List
 
-def procesar_numeros(lista_numeros: List[int]) -> tuple[List[int], List[int], List[str]]:
+
+def analizar_lista_desde_texto(entrada_raw: str) -> tuple:
     """
-    Procesa una lista de números para generar tres listas nuevas usando
-    comprensiones de lista.
+    Convierte y valida una cadena de texto en una lista de números, y luego
+    la procesa usando comprensiones de lista.
 
     Args:
-        lista_numeros (List[int]): Una lista de números enteros.
-
+        entrada_raw (str): Cadena con números separados por comas.
     Returns:
-        tuple[List[int], List[int], List[str]]: Una tupla que contiene:
-            - Una lista con solo los números positivos.
-            - Una lista con los cuadrados de todos los números.
-            - Una lista de strings que indica si cada número es "positivo" o "negativo".
+        tuple: (lista_original, positivos, cuadrados, clasificacion_signo)
+    Raises:
+        ValueError: Si la entrada está vacía o contiene elementos no válidos.
     """
-    # 1. Lista con solo los números positivos
+    # Límite máximo de números permitidos en la lista
+    limite_elementos = 100
+
+    # 1. Validación y Conversión de la Entrada
+    if not entrada_raw.strip():
+        raise ValueError("la entrada no puede estar vacía")
+
+    elementos = entrada_raw.split(',')
+    lista_numeros = []
+    for elemento in elementos:
+        try:
+            # Quitamos espacios y convertimos a entero
+            lista_numeros.append(int(elemento.strip()))
+        except ValueError:
+            raise ValueError(f"el elemento '{elemento.strip()}' no es un número entero válido")
+
+    # Límite de tamaño de la lista
+    if len(lista_numeros) > limite_elementos:
+        raise ValueError(f"la lista excede el límite de {limite_elementos} números")
+
+    # 2. Lógica de Procesamiento con List Comprehensions
     numeros_positivos = [num for num in lista_numeros if num > 0]
-
-    # 2. Lista con los cuadrados de todos los números
     cuadrados = [num ** 2 for num in lista_numeros]
-
-    # 3. Lista de strings 'positivo' o 'negativo' usando un ternario
     clasificacion_signo = ["positivo" if num >= 0 else "negativo" for num in lista_numeros]
 
-    return (numeros_positivos, cuadrados, clasificacion_signo)
+    return lista_numeros, numeros_positivos, cuadrados, clasificacion_signo
 
 
 def main():
     """
-    Función principal que ejecuta el procesamiento de la lista de números
-    y muestra los resultados.
+    Función principal que solicita la lista al usuario y muestra los resultados.
     """
-    numeros = [-5, 10, -15, 20, -25, 30]
-
     print("📊 Procesador de Datos con List Comprehensions 📊")
-    print(f"Lista de números original: {numeros}")
 
-    # Llama a la función de procesamiento
-    numeros_positivos, cuadrados, clasificacion_signo = procesar_numeros(numeros)
+    while True:
+        try:
+            entrada_usuario = input("\nIngrese números separados por comas (ej: -5, 10, -15, 20, -25, 30): ")
 
-    # Imprime los resultados de forma descriptiva
-    print(f"\n✅ Números positivos: {numeros_positivos}")
-    print(f"✅ Cuadrados de los números: {cuadrados}")
-    print(f"✅ Clasificación de signo: {clasificacion_signo}")
+            # La función de análisis hace la validación y el procesamiento
+            original, positivos, cuadrados, clasificacion = analizar_lista_desde_texto(entrada_usuario)
+
+            # Si es correcto, mostramos los resultados
+            print(f"\nLista original procesada: {original}")
+            print(f"✅ Números positivos: {positivos}")
+            print(f"✅ Cuadrados de los números: {cuadrados}")
+            print(f"✅ Clasificación de signo: {clasificacion}")
+            break
+
+        except ValueError as e:
+            print(f"❌ Error: {e}. Intente de nuevo.")
+
 
 if __name__ == "__main__":
     main()
