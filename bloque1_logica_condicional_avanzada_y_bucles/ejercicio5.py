@@ -34,7 +34,7 @@ def analizar_numero(entrada_raw: str) -> tuple:
 
     return numero, clasificacion, es_multiplo_de_5
 
-def principal():
+def main():
     """
     Función principal que solicita el número y muestra el análisis.
     """
@@ -62,4 +62,4 @@ def principal():
             print(f"❌ Error: {e}. Intente de nuevo.")
 
 if __name__ == "__main__":
-    principal()
+    main()

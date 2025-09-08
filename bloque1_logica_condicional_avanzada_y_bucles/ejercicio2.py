@@ -37,7 +37,7 @@ def procesar_comandos(comando: str) -> bool:
             print("✌️ Saliendo del intérprete. ¡Hasta la proxima!...")
             return False
 
-def principal():
+def main():
     """
     Función principal que ejecuta el bucle del intérprete de comandos.
     """
@@ -53,4 +53,4 @@ def principal():
             print(f"❌ Error: {e}")
 
 if __name__ == "__main__":
-    principal()
+    main()

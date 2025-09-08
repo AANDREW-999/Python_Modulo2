@@ -52,7 +52,7 @@ def determinar_ganador(eleccion_jugador: str, eleccion_computadora: str) -> str:
     return 'jugador' if victorias_jugador else 'computadora'
 
 
-def principal():
+def main():
     """
     Función principal que ejecuta el bucle del juego.
     """
@@ -96,4 +96,4 @@ def principal():
 
 
 if __name__ == "__main__":
-    principal()
+    main()

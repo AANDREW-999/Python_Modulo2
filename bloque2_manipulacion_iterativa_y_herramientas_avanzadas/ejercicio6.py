@@ -20,14 +20,14 @@ def analizar_frase_y_letra(frase_raw: str, letra_raw: str) -> list[int]:
     Raises:
         ValueError: Si alguna de las entradas no cumple las reglas.
     """
-    # --- 1. Validación de la Frase ---
+    # 1. Validación de la Frase
     frase_validada = frase_raw.strip()
     if not frase_validada:
         raise ValueError("la frase no puede estar vacía")
     if any(c.isdigit() for c in frase_validada):
         raise ValueError("la frase no puede contener números")
 
-    # --- 2. Validación de la Letra ---
+    # 2. Validación de la Letra
     letra_validada = letra_raw.strip()
     if not letra_validada:
         raise ValueError("la letra a buscar no puede estar vacía")
@@ -48,7 +48,7 @@ def analizar_frase_y_letra(frase_raw: str, letra_raw: str) -> list[int]:
     return indices
 
 
-def principal():
+def main():
     """
     Función principal que gestiona la interacción con el usuario.
     """
@@ -76,4 +76,4 @@ def principal():
 
 
 if __name__ == "__main__":
-    principal()
+    main()

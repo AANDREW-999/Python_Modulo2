@@ -39,7 +39,7 @@ def validar_contrasena(contrasena: str) -> bool:
     return True
 
 
-def principal():
+def main():
     """
     Función principal que pide la contraseña y la valida en un bucle.
     """
@@ -63,4 +63,4 @@ def principal():
 
 
 if __name__ == "__main__":
-    principal()
+    main()
