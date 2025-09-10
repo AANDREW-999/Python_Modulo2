@@ -4,9 +4,6 @@ Pruebas unitarias para el Ejercicio 8: Filtrado de Datos.
 import pytest
 from bloque2_manipulacion_iterativa_y_herramientas_avanzadas.ejercicio8 import analizar_lista_desde_texto
 
-
-# ... (las pruebas anteriores como test_lista_mixta_valida, etc. siguen aquí)
-
 def test_lista_mixta_valida():
     """Prueba una entrada estándar con números positivos, negativos y cero."""
     entrada = "-5, 10, 0, 20, -25"

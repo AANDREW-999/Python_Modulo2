@@ -22,10 +22,10 @@ def calcular_precio_entrada(edad_input: str, es_estudiante: str) -> float:
                     está fuera de rango, o si la respuesta de estudiante es inválida.
     """
     # 1. Validación de Entradas Vacías
-    if not edad_input.strip():
+    if not edad_input.strip() or edad_input == "":
         raise ValueError("el campo de la edad no puede estar vacío")
 
-    if not es_estudiante.strip():
+    if not es_estudiante.strip() or es_estudiante == "":
         raise ValueError("el campo de estudiante no puede estar vacío")
 
     # 2. Conversión y Validación de la Edad
