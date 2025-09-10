@@ -1,9 +1,8 @@
 """
 Ejercicio 15: Proyecto Final - Batalla Naval Simplificada
 
-Este programa simula un juego de Batalla Naval en una cuadrícula de 5x5.
-El objetivo es que el jugador adivine la ubicación de un barco escondido
-en una fila o columna.
+Este programa simula un juego de Batalla Naval en una cuadrícula de 5x5,
+con funciones separadas para la validación y la lógica principal.
 """
 import random
 import string
@@ -19,13 +18,10 @@ SIMBOLO_TOCADO = "🔥"
 SIMBOLO_VACIO = "⬜"
 
 
-def inicializar_tablero() -> List[List[str]]:
-    """
-    Crea un tablero de juego de 5x5 lleno de espacios vacíos.
+# --- Lógica del tablero y juego ---
 
-    Returns:
-        List[List[str]]: El tablero de juego como una lista de listas.
-    """
+def inicializar_tablero() -> List[List[str]]:
+    """Crea un tablero de juego de 5x5 lleno de espacios vacíos."""
     return [[SIMBOLO_VACIO for _ in range(COLUMNAS)] for _ in range(FILAS)]
 
 
@@ -33,11 +29,9 @@ def colocar_barco() -> List[Tuple[int, int]]:
     """
     Coloca un barco de 3 casillas en una fila o columna aleatoria.
 
-    Returns:
-        List[Tuple[int, int]]: Una lista de tuplas con las coordenadas del barco.
+    Esta función se basa en el módulo 'random' para la aleatoriedad.
     """
     barco = []
-    # Decide aleatoriamente si el barco será horizontal (0) o vertical (1)
     orientacion = random.randint(0, 1)
 
     if orientacion == 0:  # Horizontal
@@ -55,12 +49,7 @@ def colocar_barco() -> List[Tuple[int, int]]:
 
 
 def imprimir_tablero(tablero: List[List[str]]) -> None:
-    """
-    Imprime el tablero de juego para el usuario.
-
-    Args:
-        tablero (List[List[str]]): El tablero de juego.
-    """
+    """Imprime el tablero de juego para el usuario."""
     print("\n   " + " ".join([str(i + 1) for i in range(COLUMNAS)]))
     print("  " + "---" * COLUMNAS)
     for i in range(FILAS):
@@ -69,35 +58,53 @@ def imprimir_tablero(tablero: List[List[str]]) -> None:
     print("-" * 20)
 
 
-def convertir_coordenadas(coordenada: str) -> Tuple[int, int] | None:
+# --- Funciones de validación ---
+
+def validar_coordenada_usuario(coordenada_str: str, tablero: List[List[str]]) -> Tuple[int, int]:
     """
-    Convierte una coordenada de string (ej. "A3") a una tupla de índices (0, 2).
+    Valida y convierte la coordenada ingresada por el usuario.
 
     Args:
-        coordenada (str): La coordenada ingresada por el usuario.
+        coordenada_str (str): La coordenada ingresada por el usuario (ej. "A1").
+        tablero (List[List[str]]): El estado actual del tablero.
 
     Returns:
-        Tuple[int, int] | None: La tupla de índices (fila, columna) o None si es inválida.
+        Tuple[int, int]: La tupla de índices (fila, columna) si es válida.
+
+    Raises:
+        ValueError: Si la coordenada es inválida o ya ha sido disparada.
     """
+    coordenada = coordenada_str.strip().upper()
+
     if len(coordenada) != 2:
-        return None
+        raise ValueError("Coordenada inválida. Debe tener el formato 'LetraNúmero', ej. A1.")
 
-    fila_char = coordenada[0].upper()
-    columna_str = coordenada[1]
+    fila_char = coordenada[0]
+    columna_char = coordenada[1]
 
-    if fila_char not in string.ascii_uppercase[:FILAS] or not columna_str.isdigit():
-        return None
+    if fila_char not in string.ascii_uppercase[:FILAS]:
+        raise ValueError(
+            f"La fila '{fila_char}' está fuera de rango. Use una letra de A a {string.ascii_uppercase[FILAS - 1]}.")
+
+    if not columna_char.isdigit():
+        raise ValueError("La columna debe ser un número.")
+
+    columna_num = int(columna_char)
+    if not (1 <= columna_num <= COLUMNAS):
+        raise ValueError(f"La columna '{columna_num}' está fuera de rango. Use un número de 1 a {COLUMNAS}.")
 
     fila = ord(fila_char) - ord('A')
-    columna = int(columna_str) - 1
+    columna = columna_num - 1
 
-    if not (0 <= fila < FILAS and 0 <= columna < COLUMNAS):
-        return None
+    if tablero[fila][columna] != SIMBOLO_VACIO:
+        raise ValueError("Ya disparaste en esa posición. Elige una nueva.")
 
     return (fila, columna)
 
 
-def principal():
+# --- Función principal del juego ---
+
+def main():
     """
     Función principal que ejecuta el juego de Batalla Naval.
     """
@@ -113,21 +120,14 @@ def principal():
         imprimir_tablero(tablero)
         print(f"--- Turno {turno} de {NUMERO_TURNOS} ---")
 
-        while True:
-            coordenada_usuario = input("Ingresa una coordenada (ej. A1): ").upper()
-            coordenada_tuple = convertir_coordenadas(coordenada_usuario)
+        try:
+            coordenada_usuario = input("Ingresa una coordenada (ej. A1): ")
+            fila, columna = validar_coordenada_usuario(coordenada_usuario, tablero)
+        except ValueError as e:
+            print(f"❌ Error: {e}. Pierdes un turno.")
+            continue
 
-            if coordenada_tuple:
-                fila, columna = coordenada_tuple
-                if tablero[fila][columna] != SIMBOLO_VACIO:
-                    print("❌ Ya disparaste en esa posición. Elige una nueva.")
-                else:
-                    break
-            else:
-                print("❌ Coordenada inválida. Intente de nuevo.")
-
-        # Verificar si el disparo impactó al barco
-        if coordenada_tuple in barco_ubicacion:
+        if (fila, columna) in barco_ubicacion:
             print("🔥 ¡Tocado! Has impactado una parte del barco.")
             tablero[fila][columna] = SIMBOLO_TOCADO
             casillas_acertadas += 1
@@ -135,14 +135,12 @@ def principal():
             print("💧 ¡Agua! El disparo cayó al mar.")
             tablero[fila][columna] = SIMBOLO_AGUA
 
-        # Verificar si el barco ha sido hundido
         if casillas_acertadas == LONGITUD_BARCO:
             print("\n🎉 ¡Felicidades! Has hundido el barco.")
             print("¡Ganaste el juego!")
             imprimir_tablero(tablero)
             break
 
-    # Mensaje de fin de juego si no se hundió el barco
     if casillas_acertadas < LONGITUD_BARCO:
         print("\n💀 ¡Oh no! Te quedaste sin turnos. El barco no ha sido hundido.")
         print("¡Perdiste el juego!")
@@ -153,4 +151,4 @@ def principal():
 
 
 if __name__ == "__main__":
-    principal()
+    main()
