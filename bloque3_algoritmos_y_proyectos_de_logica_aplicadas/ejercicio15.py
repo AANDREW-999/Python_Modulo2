@@ -1,5 +1,5 @@
 """
-Ejercicio 15: Proyecto Final - Batalla Naval Simplificada
+Ejercicio 15: Proyecto Final - Batalla Naval Simplificada...
 
 Este programa simula un juego de Batalla Naval en una cuadrícula de 5x5,
 con funciones separadas para la validación y la lógica principal.

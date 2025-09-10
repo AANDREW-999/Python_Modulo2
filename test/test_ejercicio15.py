@@ -1,6 +1,6 @@
 """
 Pruebas unitarias para el Ejercicio 15: Batalla Naval Simplificada.
-
+...
 Verifica la lógica de las funciones de inicialización, colocación del barco
 y validación de coordenadas.
 """
