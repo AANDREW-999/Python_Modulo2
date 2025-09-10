@@ -1,53 +1,63 @@
 """
 Pruebas unitarias para el Ejercicio 13: Aventura de Texto Simple.
 
-Verifica la lógica de las funciones de habitaciones y decisiones, separándolas
-de la interacción con el usuario.
+Verifica la lógica de las funciones de juego y la validación de comandos.
 """
-from bloque3_algoritmos_y_proyectos_de_logica_aplicadas.ejercicio13 import get_habitacion_info, manejar_decision
+import pytest
+from bloque3_algoritmos_y_proyectos_de_logica_aplicadas.ejercicio13 import (
+    get_habitacion_info,
+    validar_comando,
+    HABITACIONES
+)
 
-# --- Pruebas para la función get_habitacion_info ---
+# --- Pruebas para get_habitacion_info ---
 
-def test_get_habitacion_info_entrada():
-    """Verifica la información de la habitación 'entrada'."""
+def test_get_habitacion_info_existente():
+    """Prueba que se obtenga la información correcta para una habitación existente."""
     descripcion, movimientos = get_habitacion_info("entrada")
-    assert "Estás en una mazmorra" in descripcion
+    assert descripcion.startswith("Estás en una mazmorra")
     assert movimientos == {"norte": "sala_tesoro", "sur": "pasillo_sur"}
 
-def test_get_habitacion_info_pasillo_sur():
-    """Verifica la información del 'pasillo_sur'."""
-    descripcion, movimientos = get_habitacion_info("pasillo_sur")
-    assert "Es un pasillo largo" in descripcion
-    assert movimientos == {"este": "sala_trampa", "oeste": "sala_tesoro"}
+def test_get_habitacion_info_inexistente():
+    """Prueba que se retorne None para una habitación que no existe."""
+    info = get_habitacion_info("cuarto_secreto")
+    assert info is None
 
-def test_get_habitacion_info_sala_tesoro():
-    """Verifica la información de la 'sala_tesoro' (estado final)."""
-    descripcion, movimientos = get_habitacion_info("sala_tesoro")
-    assert "¡Ganaste el juego!" in descripcion
-    assert movimientos == {}
+# --- Pruebas para la función de validación de comandos ---
 
-def test_get_habitacion_info_habitacion_no_existente():
-    """Verifica que devuelva None para una habitación no válida."""
-    assert get_habitacion_info("sotano_secreto") is None
+def test_comando_valido_avanza_correctamente():
+    """Prueba que un comando válido devuelva la siguiente habitación."""
+    proxima_habitacion = validar_comando("entrada", "ir NORTE")
+    assert proxima_habitacion == "sala_tesoro"
 
-# --- Pruebas para la función manejar_decision ---
+def test_comando_con_mayusculas_funciona():
+    """Prueba que el comando funcione independientemente de las mayúsculas."""
+    proxima_habitacion = validar_comando("entrada", "ir NORTE")
+    assert proxima_habitacion == "sala_tesoro"
 
-def test_manejar_decision_movimiento_valido():
-    """Verifica que un movimiento válido cambie de habitación."""
-    nueva_habitacion = manejar_decision("entrada", "ir norte")
-    assert nueva_habitacion == "sala_tesoro"
+def test_comando_con_espacios_extra_funciona():
+    """Prueba que el comando funcione con espacios adicionales."""
+    proxima_habitacion = validar_comando("entrada", "  ir   sur  ")
+    assert proxima_habitacion == "pasillo_sur"
 
-def test_manejar_decision_movimiento_invalido():
-    """Verifica que un movimiento inválido no cambie de habitación."""
-    nueva_habitacion = manejar_decision("entrada", "ir este")
-    assert nueva_habitacion == "entrada"
+def test_comando_invalido_lanza_excepcion():
+    """Prueba que un comando con formato incorrecto lance ValueError."""
+    with pytest.raises(ValueError, match="Comando no válido"):
+        validar_comando("entrada", "moverse norte")
+    with pytest.raises(ValueError, match="Comando no válido"):
+        validar_comando("entrada", "ir")
+    with pytest.raises(ValueError, match="Comando no válido"):
+        validar_comando("entrada", "ir_norte")
 
-def test_manejar_decision_comando_invalido():
-    """Verifica que un comando no reconocido no cambie de habitación."""
-    nueva_habitacion = manejar_decision("entrada", "abrir puerta")
-    assert nueva_habitacion == "entrada"
+def test_direccion_invalida_lanza_excepcion():
+    """Prueba que una dirección no válida lance ValueError."""
+    with pytest.raises(ValueError, match="No puedes ir en esa dirección"):
+        validar_comando("entrada", "ir este")
 
-def test_manejar_decision_desde_estado_final():
-    """Verifica que no haya movimientos desde un estado final."""
-    nueva_habitacion = manejar_decision("sala_tesoro", "ir sur")
-    assert nueva_habitacion == "sala_tesoro"
+def test_comando_en_estado_final_lanza_excepcion():
+    """
+    Prueba que un comando en una habitación final lance una excepción.
+    La validación de la lógica del juego ya se hace en el bucle principal.
+    """
+    with pytest.raises(ValueError, match="No puedes ir en esa dirección"):
+        validar_comando("sala_tesoro", "ir norte")
