@@ -18,7 +18,7 @@ from bloque3_algoritmos_y_proyectos_de_logica_aplicadas.ejercicio14 import (
 def test_seleccionar_palabra(mock_random_choice):
     """
     Prueba que la función seleccione una palabra de la lista.
-    Se usa mock para forzar la selección de una palabra específica.
+    Se usa mock para forzar la selección de una palabra específica...
     """
     palabra = seleccionar_palabra()
     assert palabra in PALABRAS_SECRETAS + ['test']  # 'test' es agregado por el mock

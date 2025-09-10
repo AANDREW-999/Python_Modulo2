@@ -1,5 +1,5 @@
 """
-Ejercicio 14: Juego del Ahorcado (Hangman)
+Ejercicio 14: Juego del Ahorcado (Hangman).
 
 Este programa implementa una versión en consola del clásico juego del "Ahorcado".
 El código está refactorizado para separar la validación de la lógica.
