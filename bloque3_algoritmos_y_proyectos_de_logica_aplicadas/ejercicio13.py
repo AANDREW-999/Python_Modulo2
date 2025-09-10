@@ -1,5 +1,5 @@
 """
-Ejercicio 13: Aventura de Texto Simple
+Ejercicio 13: Aventura de Texto Simple...
 
 Este programa simula un pequeño juego de aventura basado en texto, con la lógica
 separada en funciones para facilitar la modularidad y las pruebas.

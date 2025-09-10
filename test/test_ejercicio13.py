@@ -1,6 +1,6 @@
 """
 Pruebas unitarias para el Ejercicio 13: Aventura de Texto Simple.
-
+...
 Verifica la lógica de las funciones de juego y la validación de comandos.
 """
 import pytest
